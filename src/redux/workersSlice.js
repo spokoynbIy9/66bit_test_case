@@ -71,11 +71,13 @@ const workersSlice = createSlice({
       })
       .addCase(fetchWorkers.fulfilled, (state, action) => {
         state.status = "succeeded";
+
         const newWorkers = action.payload.filter(
           (newWorker) =>
-            !state.workers.some((worker) => worker.id === newWorker.id)
+            !state.workers.some(
+              (existingWorker) => existingWorker.id === newWorker.id
+            )
         );
-
         if (newWorkers.length > 0) {
           state.workers = [...state.workers, ...newWorkers];
           state.page += 1;

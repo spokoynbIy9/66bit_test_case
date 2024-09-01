@@ -5,11 +5,9 @@ import { ThemeProvider } from "./contexts/ThemeContext.jsx";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Provider store={store}>
-      <ThemeProvider >
-        <App />
-      </ThemeProvider>
-    </Provider>
-  </StrictMode>
+  <Provider store={store}>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  </Provider>
 );

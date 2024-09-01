@@ -298,9 +298,6 @@ const useStyles = makeStyles((theme) => ({
     overflowX: "auto",
     maxWidth: "1400px",
     margin: "0 auto",
-    // [theme.breakpoints.down("sm")]: {
-    //   padding: "0 28px",
-    // },
     "&:last-child": {
       marginBottom: 0,
     },
@@ -467,13 +464,6 @@ const useStyles = makeStyles((theme) => ({
       gridRow: "1 / span 2",
     },
   },
-  // infoWorker_wrapper_top: {
-  //   display: "flex",
-  //   gap: "40px",
-  //   [theme.breakpoints.down("sm")]: {
-  //     gap: "16px",
-  //   },
-  // },
   worker_name: {
     fontSize: "40px",
     fontWeight: 700,

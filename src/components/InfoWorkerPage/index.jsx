@@ -21,7 +21,7 @@ const InfoWorkerPage = () => {
     worker;
   return (
     <>
-      <div className={`${classes.infoWorker_wrapper_top} ${classes.container}`}>
+      <div className={`${classes.container}`}>
         <GeneralInfo
           name={name}
           position={position}

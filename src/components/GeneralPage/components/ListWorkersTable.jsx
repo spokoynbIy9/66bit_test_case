@@ -4,6 +4,7 @@ import { fetchWorkers } from "../../../redux/workersSlice";
 import { formatBirthdate } from "../utils/dateUtils";
 import useStyles from "../styles";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 const ListWorkersTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -12,33 +13,35 @@ const ListWorkersTable = () => {
   const { workers, page, count, status, hasMore, filters } = useSelector(
     (state) => state.workers
   );
+  const pageRef = useRef(page);
+  useEffect(() => {
+    console.log("render");
+
+    pageRef.current = page;
+  }, [page]);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchWorkers({ page: 1, count, filters }));
-    }
-  }, [dispatch, count, status, filters, page]); //здесь какая то фигня
-
-  const handleScroll = useCallback(() => {
-    const scrollTop = document.documentElement.scrollTop;
-    const windowHeight = window.innerHeight;
-    const docHeight = document.documentElement.offsetHeight;
-
-    if (
-      windowHeight + scrollTop >= docHeight - 100 &&
-      status !== "loading" &&
-      hasMore
-    ) {
+    const handleScroll = () => {
+      const scrollTop = document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.offsetHeight;
+      if (
+        windowHeight + scrollTop >= docHeight - 100 &&
+        status !== "loading" &&
+        hasMore &&
+        pageRef.current > 1
+      ) {
+        dispatch(fetchWorkers({ page: pageRef.current, count, filters }));
+      }
+    };
+    if (status === "idle" && page === 1 && workers.length === 0) {
       dispatch(fetchWorkers({ page, count, filters }));
     }
-  }, [dispatch, page, count, status, hasMore, filters]);
-
-  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [handleScroll]);
+  }, [dispatch, page, count, status, hasMore, filters, workers.length]);
   return (
     <>
       {workers.length !== 0 ? (
